@@ -43,13 +43,14 @@ const ScrollExpandMedia = ({
   const sectionRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
+    if (reduceMotion) return;
+
+    const applyProgressDelta = (scrollDelta: number) => {
+      if (mediaFullyExpanded && scrollDelta < 0 && window.scrollY <= 5) {
         setMediaFullyExpanded(false);
-        e.preventDefault();
-      } else if (!mediaFullyExpanded) {
-        e.preventDefault();
-        const scrollDelta = e.deltaY * 0.0009;
+        return true;
+      }
+      if (!mediaFullyExpanded) {
         const newProgress = Math.min(
           Math.max(scrollProgress + scrollDelta, 0),
           1
@@ -62,6 +63,32 @@ const ScrollExpandMedia = ({
         } else if (newProgress < 0.75) {
           setShowContent(false);
         }
+        return true;
+      }
+      return false;
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      if (applyProgressDelta(e.deltaY * 0.0009)) {
+        e.preventDefault();
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return;
+
+      let delta = 0;
+      if (e.key === "ArrowDown") delta = 0.08;
+      else if (e.key === "ArrowUp") delta = -0.08;
+      else if (e.key === "PageDown" || e.key === " ") delta = 0.25;
+      else if (e.key === "PageUp") delta = -0.25;
+      else if (e.key === "End") delta = 1;
+      else if (e.key === "Home") delta = -1;
+      else return;
+
+      if (applyProgressDelta(delta)) {
+        e.preventDefault();
       }
     };
 
@@ -104,8 +131,10 @@ const ScrollExpandMedia = ({
     };
 
     const handleScroll = (): void => {
-      if (!mediaFullyExpanded) {
-        window.scrollTo(0, 0);
+      if (!mediaFullyExpanded && window.scrollY > 0) {
+        setScrollProgress(1);
+        setMediaFullyExpanded(true);
+        setShowContent(true);
       }
     };
 
@@ -113,6 +142,7 @@ const ScrollExpandMedia = ({
       passive: false,
     });
     window.addEventListener("scroll", handleScroll as EventListener);
+    window.addEventListener("keydown", handleKeyDown as unknown as EventListener);
     window.addEventListener(
       "touchstart",
       handleTouchStart as unknown as EventListener,
@@ -132,6 +162,10 @@ const ScrollExpandMedia = ({
       );
       window.removeEventListener("scroll", handleScroll as EventListener);
       window.removeEventListener(
+        "keydown",
+        handleKeyDown as unknown as EventListener
+      );
+      window.removeEventListener(
         "touchstart",
         handleTouchStart as unknown as EventListener
       );
@@ -141,7 +175,7 @@ const ScrollExpandMedia = ({
       );
       window.removeEventListener("touchend", handleTouchEnd as EventListener);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+  }, [scrollProgress, mediaFullyExpanded, touchStartY, reduceMotion]);
 
   useEffect(() => {
     const checkIfMobile = (): void => {
@@ -154,10 +188,13 @@ const ScrollExpandMedia = ({
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  const mediaWidth = 420 + scrollProgress * (isMobileState ? 650 : 1250);
-  const mediaHeight = 520 + scrollProgress * (isMobileState ? 200 : 400);
-  const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
-  const introOpacity = 1 - scrollProgress;
+  const effectiveScrollProgress = reduceMotion ? 1 : scrollProgress;
+  const effectiveShowContent = reduceMotion ? true : showContent;
+
+  const mediaWidth = 420 + effectiveScrollProgress * (isMobileState ? 650 : 1250);
+  const mediaHeight = 520 + effectiveScrollProgress * (isMobileState ? 200 : 400);
+  const textTranslateX = effectiveScrollProgress * (isMobileState ? 180 : 150);
+  const introOpacity = 1 - effectiveScrollProgress;
 
   const firstWord = title ? title.split(" ")[0] : "";
   const restOfTitle = title ? title.split(" ").slice(1).join(" ") : "";
@@ -192,20 +229,20 @@ const ScrollExpandMedia = ({
                 }`}
                 style={{ opacity: introOpacity }}
               >
-                <div className="flex flex-col items-center gap-2">
-                  <motion.h2
+                <h1 className="flex flex-col items-center gap-2">
+                  <motion.span
                     className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-cream transition-none"
                     style={{ transform: `translateX(-${textTranslateX}vw)` }}
                   >
                     {firstWord}
-                  </motion.h2>
-                  <motion.h2
+                  </motion.span>
+                  <motion.span
                     className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-center text-cream transition-none"
                     style={{ transform: `translateX(${textTranslateX}vw)` }}
                   >
                     {restOfTitle}
-                  </motion.h2>
-                </div>
+                  </motion.span>
+                </h1>
                 <span className="h-1 w-16 rounded-full bg-gold" aria-hidden="true" />
               </div>
 
@@ -238,7 +275,7 @@ const ScrollExpandMedia = ({
                     <motion.div
                       className="absolute inset-0 bg-black/30 rounded-2xl"
                       initial={{ opacity: 0.7 }}
-                      animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
+                      animate={{ opacity: 0.5 - effectiveScrollProgress * 0.3 }}
                       transition={{ duration: 0.2 }}
                     />
                   </div>
@@ -254,7 +291,7 @@ const ScrollExpandMedia = ({
                     <motion.div
                       className="absolute inset-0 bg-black/50 rounded-2xl"
                       initial={{ opacity: 0.7 }}
-                      animate={{ opacity: 0.7 - scrollProgress * 0.3 }}
+                      animate={{ opacity: 0.7 - effectiveScrollProgress * 0.3 }}
                       transition={{ duration: 0.2 }}
                     />
                   </div>
@@ -286,7 +323,7 @@ const ScrollExpandMedia = ({
             <motion.section
               className="flex flex-col w-full relative z-10"
               initial={{ opacity: 0 }}
-              animate={{ opacity: showContent ? 1 : 0 }}
+              animate={{ opacity: effectiveShowContent ? 1 : 0 }}
               transition={{ duration: 0.7 }}
             >
               {children}

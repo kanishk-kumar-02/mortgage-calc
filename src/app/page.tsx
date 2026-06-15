@@ -275,11 +275,11 @@ function Hero({
       scrollToExpand="Scroll to explore ↓"
     >
       <div className="relative mx-auto max-w-4xl bg-ink px-5 pb-20 pt-4 text-center text-cream sm:px-8 sm:pb-28">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-cream sm:text-5xl sm:leading-tight">
+        <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-cream sm:text-5xl sm:leading-tight">
           Buying a flat in Mumbai?
           <br />
           Know your EMI before the builder asks for the booking amount.
-        </h1>
+        </h2>
         <p className="mx-auto mt-6 max-w-2xl text-base text-cream/70 sm:text-lg">
           Nivaas turns your loan amount, interest rate and tenure into one clear monthly
           number — so you walk into SBI, HDFC, ICICI or your local cooperative bank
@@ -607,6 +607,12 @@ export default function Home() {
 
   return (
     <div className="flex flex-1 flex-col bg-cream">
+      <a
+        href="#calculator"
+        className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:left-4 focus-visible:top-4 focus-visible:z-[100] focus-visible:rounded-full focus-visible:bg-indigo focus-visible:px-5 focus-visible:py-2.5 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+      >
+        Skip to calculator
+      </a>
       <Navbar onCalculate={scrollToCalculator} />
       <main className="flex-1">
         <Hero calculatorRef={calculatorRef} />

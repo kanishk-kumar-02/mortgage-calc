@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <rect x="1.5" y="1.5" width="37" height="37" rx="10" fill="#2541b2" />
+  <path
+    d="M11 21.5 L20 13 L29 21.5 V28.5 A1.5 1.5 0 0 1 27.5 30 H12.5 A1.5 1.5 0 0 1 11 28.5 Z"
+    fill="none"
+    stroke="#fbf7f0"
+    stroke-width="2.2"
+    stroke-linejoin="round"
+    stroke-linecap="round"
+  />
+  <text
+    x="20"
+    y="27"
+    text-anchor="middle"
+    font-size="9"
+    font-weight="700"
+    fill="#d4a537"
+    font-family="Arial, sans-serif"
+  >₹</text>
+</svg>
