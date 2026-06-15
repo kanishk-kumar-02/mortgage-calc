@@ -272,27 +272,38 @@ function Hero({
       mediaSrc="/hero.mp4"
       title="Your Dream Home"
       date="Home Loan EMI Calculator"
-      scrollToExpand="Scroll to calculate your EMI"
+      scrollToExpand="Scroll to explore ↓"
     >
-      <div className="relative mx-auto max-w-4xl px-5 pb-20 pt-4 text-center sm:px-8 sm:pb-28">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl sm:leading-tight">
+      <div className="relative mx-auto max-w-4xl bg-ink px-5 pb-20 pt-4 text-center text-cream sm:px-8 sm:pb-28">
+        <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-cream sm:text-5xl sm:leading-tight">
           Buying a flat in Mumbai?
           <br />
           Know your EMI before the builder asks for the booking amount.
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-base text-ink/70 sm:text-lg">
+        <p className="mx-auto mt-6 max-w-2xl text-base text-cream/70 sm:text-lg">
           Nivaas turns your loan amount, interest rate and tenure into one clear monthly
           number — so you walk into SBI, HDFC, ICICI or your local cooperative bank
           already knowing what you can afford.
         </p>
 
-        <div className="mx-auto mt-10 max-w-sm rounded-2xl border border-ink/10 bg-white/70 p-6 shadow-sm backdrop-blur-sm">
-          <p className="text-sm text-ink/60">
+        <div className="mx-auto mt-10 max-w-sm rounded-2xl border border-white/20 bg-white/10 p-6 shadow-sm backdrop-blur">
+          <p className="text-sm text-cream/70">
             Estimated monthly EMI for a ₹40,00,000 loan at 8.5% for 20 years
           </p>
-          <p className="mt-2 font-[var(--font-heading)] text-4xl font-extrabold text-ink sm:text-5xl">
+          <p className="mt-2 font-[var(--font-heading)] text-4xl font-extrabold text-cream sm:text-5xl">
             <AnimatedCounter value={SAMPLE_EMI} />
           </p>
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <button
+            onClick={() =>
+              calculatorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+            }
+            className="cursor-pointer rounded-full bg-gold px-8 py-4 text-base font-bold text-ink shadow-lg shadow-gold/20 transition-transform hover:scale-[1.03] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+          >
+            Calculate My EMI
+          </button>
         </div>
       </div>
 

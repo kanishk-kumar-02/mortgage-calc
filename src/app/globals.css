@@ -28,52 +28,6 @@ h6 {
   font-family: var(--font-heading), var(--font-body), sans-serif;
 }
 
-/* Ambient background blobs — GPU-composited, transform/opacity only */
-@keyframes drift-one {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(4%, 6%) scale(1.08);
-  }
-}
-
-@keyframes drift-two {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-5%, -4%) scale(1.05);
-  }
-}
-
-@keyframes pulse-soft {
-  0%,
-  100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.ambient-blob-one {
-  animation: drift-one 22s ease-in-out infinite, pulse-soft 14s ease-in-out infinite;
-}
-
-.ambient-blob-two {
-  animation: drift-two 26s ease-in-out infinite, pulse-soft 18s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ambient-blob-one,
-  .ambient-blob-two {
-    animation: none;
-  }
-}
-
 /* Glassmorphism navbar */
 .glass {
   background: rgba(251, 247, 240, 0.7);
