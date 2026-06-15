@@ -142,7 +142,7 @@ function SliderField({ label, value, onChange, min, max, step, prefix, suffix }:
       <div className="mb-2 flex items-center justify-between gap-3">
         <label className="text-sm font-medium text-ink/70">{label}</label>
         <div className="flex items-center gap-1 rounded-lg border border-ink/10 bg-white px-3 py-1.5 shadow-sm">
-          {prefix && <span className="text-sm text-ink/40">{prefix}</span>}
+          {prefix && <span className="text-sm text-ink/60">{prefix}</span>}
           <input
             type="number"
             value={value}
@@ -150,9 +150,9 @@ function SliderField({ label, value, onChange, min, max, step, prefix, suffix }:
             max={max}
             step={step}
             onChange={(e) => onChange(clamp(Number(e.target.value), min, max))}
-            className="w-20 bg-transparent text-right text-sm font-semibold text-ink outline-none [appearance:textfield]"
+            className="w-20 rounded-md bg-transparent text-right text-sm font-semibold text-ink outline-none [appearance:textfield] focus-visible:ring-2 focus-visible:ring-indigo"
           />
-          {suffix && <span className="text-sm text-ink/40">{suffix}</span>}
+          {suffix && <span className="text-sm text-ink/60">{suffix}</span>}
         </div>
       </div>
       <input
@@ -201,7 +201,7 @@ function Navbar({ onCalculate }: { onCalculate: () => void }) {
         <div className="hidden md:block">
           <button
             onClick={onCalculate}
-            className="rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-cream shadow-sm transition-transform hover:scale-[1.03] active:scale-[0.98]"
+            className="cursor-pointer rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-cream shadow-sm transition-transform hover:scale-[1.03] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
           >
             Calculate Now
           </button>
@@ -209,7 +209,7 @@ function Navbar({ onCalculate }: { onCalculate: () => void }) {
 
         <button
           onClick={() => setMenuOpen((open) => !open)}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 md:hidden"
+          className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-ink/10 md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
         >
@@ -248,7 +248,7 @@ function Navbar({ onCalculate }: { onCalculate: () => void }) {
                   setMenuOpen(false);
                   onCalculate();
                 }}
-                className="mt-2 rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-cream"
+                className="mt-2 cursor-pointer rounded-full bg-indigo px-5 py-2.5 text-sm font-semibold text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
               >
                 Calculate Now
               </button>
@@ -292,7 +292,7 @@ function Hero({ onCalculate }: { onCalculate: () => void }) {
         <div className="mt-10 flex justify-center">
           <button
             onClick={onCalculate}
-            className="rounded-full bg-indigo px-8 py-4 text-base font-semibold text-cream shadow-lg shadow-indigo/20 transition-transform hover:scale-[1.03] active:scale-[0.98]"
+            className="cursor-pointer rounded-full bg-indigo px-8 py-4 text-base font-semibold text-cream shadow-lg shadow-indigo/20 transition-transform hover:scale-[1.03] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
           >
             Calculate My EMI
           </button>
@@ -581,11 +581,11 @@ function Footer() {
           <span className="font-[var(--font-heading)] text-lg font-bold text-ink">Nivaas</span>
         </div>
         <p className="text-sm text-ink/60">Your home. Your numbers. No surprises.</p>
-        <p className="max-w-xl text-xs text-ink/40">
+        <p className="max-w-xl text-xs text-ink/60">
           This calculator is for indicative purposes only. Actual EMI may vary based on
           lender terms.
         </p>
-        <p className="text-xs text-ink/40">© 2025 Nivaas. All rights reserved.</p>
+        <p className="text-xs text-ink/60">© 2025 Nivaas. All rights reserved.</p>
       </div>
     </footer>
   );
