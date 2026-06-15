@@ -8,6 +8,7 @@ import {
   useMotionValue,
   useReducedMotion,
 } from "framer-motion";
+import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 
 const MIN_LOAN = 100000;
 const MAX_LOAN = 50000000;
@@ -260,25 +261,21 @@ function Navbar({ onCalculate }: { onCalculate: () => void }) {
   );
 }
 
-function Hero({ onCalculate }: { onCalculate: () => void }) {
+function Hero({
+  calculatorRef,
+}: {
+  calculatorRef: React.RefObject<HTMLDivElement | null>;
+}) {
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
-      <div
-        className="ambient-blob-one pointer-events-none absolute -left-32 -top-20 h-80 w-80 rounded-full opacity-60 blur-3xl sm:h-[28rem] sm:w-[28rem]"
-        style={{ background: "radial-gradient(circle, var(--color-indigo) 0%, transparent 70%)" }}
-        aria-hidden="true"
-      />
-      <div
-        className="ambient-blob-two pointer-events-none absolute -right-24 top-32 h-72 w-72 rounded-full opacity-50 blur-3xl sm:h-[24rem] sm:w-[24rem]"
-        style={{ background: "radial-gradient(circle, var(--color-gold) 0%, transparent 70%)" }}
-        aria-hidden="true"
-      />
-
-      <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
-        <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-indigo">
-          Home Loan EMI Calculator
-        </p>
-        <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-ink sm:text-6xl sm:leading-tight">
+    <ScrollExpandMedia
+      mediaType="video"
+      mediaSrc="/hero.mp4"
+      title="Your Dream Home"
+      date="Home Loan EMI Calculator"
+      scrollToExpand="Scroll to calculate your EMI"
+    >
+      <div className="relative mx-auto max-w-4xl px-5 pb-20 pt-4 text-center sm:px-8 sm:pb-28">
+        <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl sm:leading-tight">
           Buying a flat in Mumbai?
           <br />
           Know your EMI before the builder asks for the booking amount.
@@ -289,16 +286,7 @@ function Hero({ onCalculate }: { onCalculate: () => void }) {
           already knowing what you can afford.
         </p>
 
-        <div className="mt-10 flex justify-center">
-          <button
-            onClick={onCalculate}
-            className="cursor-pointer rounded-full bg-indigo px-8 py-4 text-base font-semibold text-cream shadow-lg shadow-indigo/20 transition-transform hover:scale-[1.03] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
-          >
-            Calculate My EMI
-          </button>
-        </div>
-
-        <div className="mx-auto mt-14 max-w-sm rounded-2xl border border-ink/10 bg-white/70 p-6 shadow-sm backdrop-blur-sm">
+        <div className="mx-auto mt-10 max-w-sm rounded-2xl border border-ink/10 bg-white/70 p-6 shadow-sm backdrop-blur-sm">
           <p className="text-sm text-ink/60">
             Estimated monthly EMI for a ₹40,00,000 loan at 8.5% for 20 years
           </p>
@@ -307,7 +295,11 @@ function Hero({ onCalculate }: { onCalculate: () => void }) {
           </p>
         </div>
       </div>
-    </section>
+
+      <Calculator calculatorRef={calculatorRef} />
+      <HowItWorks />
+      <WhyChooseUs />
+    </ScrollExpandMedia>
   );
 }
 
@@ -606,10 +598,7 @@ export default function Home() {
     <div className="flex flex-1 flex-col bg-cream">
       <Navbar onCalculate={scrollToCalculator} />
       <main className="flex-1">
-        <Hero onCalculate={scrollToCalculator} />
-        <Calculator calculatorRef={calculatorRef} />
-        <HowItWorks />
-        <WhyChooseUs />
+        <Hero calculatorRef={calculatorRef} />
       </main>
       <Footer />
     </div>
